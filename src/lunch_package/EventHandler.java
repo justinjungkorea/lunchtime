@@ -13,6 +13,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
     private LunchGUI ui;
     private RestraurantDAO dao;
 
+    //constructor
     public EventHandler(LunchGUI ui){
         this.ui = ui;
         dao = RestaurantDAOImpl.getInstance();
@@ -24,18 +25,21 @@ public class EventHandler implements ActionListener, ListSelectionListener {
         }
     }
 
+    //input text into textfield from selected class
     public void inputText(){
         ui.fname.setText(ui.restaurant.getName());
         ui.fkind.setText(ui.restaurant.getKind());
         ui.frecoMenu.setText(ui.restaurant.getRecoMenu());
     }
 
+    //clear textfield
     public void clearText(){
         ui.fname.setText("");
         ui.fkind.setText("");
         ui.frecoMenu.setText("");
     }
 
+    //refresh and print all data
     public void refresh(){
         ui.data = dao.getAll();
         ui.defaultListModel.clear();
@@ -47,9 +51,11 @@ public class EventHandler implements ActionListener, ListSelectionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //print all data
         if(e.getSource()==ui.all){
             refresh();
         }
+        //print korean restaurant
         else if(e.getSource()==ui.korean){
             ui.data = dao.getKorean();
             ui.defaultListModel.clear();
@@ -57,6 +63,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 ui.defaultListModel.addElement(temp.getName());
             }
         }
+        //print japanese restaurant
         else if(e.getSource()==ui.japanese){
             ui.data = dao.getJapanese();
             ui.defaultListModel.clear();
@@ -64,6 +71,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 ui.defaultListModel.addElement(temp.getName());
             }
         }
+        //print chinese restaurant
         else if(e.getSource()==ui.chinese){
             ui.data = dao.getChinese();
             ui.defaultListModel.clear();
@@ -71,6 +79,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 ui.defaultListModel.addElement(temp.getName());
             }
         }
+        //print western restaurant
         else if(e.getSource()==ui.western){
             ui.data = dao.getWestern();
             ui.defaultListModel.clear();
@@ -78,6 +87,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 ui.defaultListModel.addElement(temp.getName());
             }
         }
+        //print etc restaurant
         else if(e.getSource()==ui.etc){
             ui.data = dao.getEtc();
             ui.defaultListModel.clear();
@@ -85,6 +95,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 ui.defaultListModel.addElement(temp.getName());
             }
         }
+        //open info werbsite on browser
         else if(e.getSource()==ui.menuL){
             if(ui.fname.getText().length()<1){
                 JOptionPane.showMessageDialog(null,"식당을 선택하여 주세요!");
@@ -96,8 +107,9 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 e1.printStackTrace();
             }
         }
+        //add data
         else if(e.getSource()==ui.add){
-
+            //check if there is empty textfield
             if(ui.fname.getText().length()<1){
                 JOptionPane.showMessageDialog(null,"이름을 입력하세요!");
                 return;
@@ -110,11 +122,13 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 JOptionPane.showMessageDialog(null,"추천메뉴를 입력하세요!");
                 return;
             }
+
             String name = ui.fname.getText();
             String kind = ui.fkind.getText();
             String recoMenu = ui.frecoMenu.getText();
             String confirm = String.format("이름: %s\n종류: %s\n추천메뉴: %s\n입력하시겠습니까?\n",name,kind,recoMenu);
             int input = JOptionPane.showConfirmDialog(null,confirm,"데이터 입력",JOptionPane.YES_NO_OPTION);
+            //input data if user wants
             if(input==JOptionPane.YES_OPTION){
                 ui.restaurant.setName(name);
                 ui.restaurant.setKind(kind);
@@ -123,9 +137,11 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 refresh();
             }
         }
+        //clear textfield
         else if(e.getSource()==ui.clear){
             clearText();
         }
+        //print random data
         else if(e.getSource()==ui.random){
             clearText();
             Random random = new Random();
