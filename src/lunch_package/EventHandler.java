@@ -172,8 +172,6 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                     e.printStackTrace();
                 }
             }
-
-
         }
     }
 
