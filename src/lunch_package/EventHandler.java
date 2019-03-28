@@ -128,7 +128,7 @@ public class EventHandler implements ActionListener, ListSelectionListener {
             String recoMenu = ui.frecoMenu.getText();
             String confirm = String.format("이름: %s\n종류: %s\n추천메뉴: %s\n입력하시겠습니까?\n",name,kind,recoMenu);
             int input = JOptionPane.showConfirmDialog(null,confirm,"데이터 입력",JOptionPane.YES_NO_OPTION);
-            //input data if user wants
+            //input data after checking
             if(input==JOptionPane.YES_OPTION){
                 ui.restaurant.setName(name);
                 ui.restaurant.setKind(kind);
