@@ -143,12 +143,9 @@ public class EventHandler implements ActionListener, ListSelectionListener {
         }
         //print random data
         else if(e.getSource()==ui.random){
-            clearText();
-            Random random = new Random();
-            ui.data = dao.getAll();
-            int n = random.nextInt(ui.data.size());
-            ui.restaurant = dao.getRestaurant(ui.data.get(n).getName());
-            inputText();
+            Thr run = new Thr();
+            Thread myThread = new Thread(run);
+            myThread.start();
         }
     }
 
@@ -160,5 +157,24 @@ public class EventHandler implements ActionListener, ListSelectionListener {
         }
     }
 
+    class Thr implements Runnable{
+        @Override
+        public void run() {
+            Random random = new Random();
+            ui.data = dao.getAll();
+            for(int i=0;i<10;++i) {
+                int n = random.nextInt(ui.data.size());
+                ui.restaurant = ui.data.get(n);
+                inputText();
+                try {
+                    Thread.sleep(70);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        }
+    }
 
 }
