@@ -6,13 +6,15 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.Random;
 
-public class EventHandler implements ActionListener, ListSelectionListener {
+public class EventHandler implements ActionListener, ListSelectionListener, ItemListener {
     private LunchGUI ui;
     private RestraurantDAO dao;
-
+    String[] kindStr = {"한식","양식","일식","중식","기타"};
     //constructor
     public EventHandler(LunchGUI ui){
         this.ui = ui;
@@ -28,15 +30,21 @@ public class EventHandler implements ActionListener, ListSelectionListener {
     //input text into textfield from selected class
     public void inputText(){
         ui.fname.setText(ui.restaurant.getName());
-        ui.fkind.setText(ui.restaurant.getKind());
+        int idx=0;
+        for(int i=0;i<kindStr.length;++i){
+            if(ui.restaurant.getKind().equals(kindStr[i])){
+                idx=i;
+                break;
+            }
+        }
+        ui.jcKind.setSelectedIndex(idx);
         ui.frecoMenu.setText(ui.restaurant.getRecoMenu());
     }
 
     //clear textfield
     public void clearText(){
         ui.fname.setText("");
-        ui.fkind.setText("");
-        ui.frecoMenu.setText("");
+        ui.selected="";
     }
 
     //refresh and print all data
@@ -114,19 +122,19 @@ public class EventHandler implements ActionListener, ListSelectionListener {
                 JOptionPane.showMessageDialog(null,"이름을 입력하세요!");
                 return;
             }
-            if(ui.fkind.getText().trim().length()<1){
+            if(ui.selected.trim().length()<1){
                 JOptionPane.showMessageDialog(null,"종류를 입력하세요!");
                 return;
             }
             if(ui.frecoMenu.getText().trim().length()<1){
-                JOptionPane.showMessageDialog(null,"추천메뉴를 입력하세요!");
+                JOptionPane.showMessageDialog(null,"비고를 입력하세요!");
                 return;
             }
 
             String name = ui.fname.getText();
-            String kind = ui.fkind.getText();
+            String kind = ui.selected;
             String recoMenu = ui.frecoMenu.getText();
-            String confirm = String.format("이름: %s\n종류: %s\n추천메뉴: %s\n입력하시겠습니까?\n",name,kind,recoMenu);
+            String confirm = String.format("이름: %s\n종류: %s\n비고: %s\n입력하시겠습니까?\n",name,kind,recoMenu);
             int input = JOptionPane.showConfirmDialog(null,confirm,"데이터 입력",JOptionPane.YES_NO_OPTION);
             //input data after checking
             if(input==JOptionPane.YES_OPTION){
@@ -155,6 +163,11 @@ public class EventHandler implements ActionListener, ListSelectionListener {
             ui.restaurant = dao.getRestaurant(ui.jlist.getSelectedValue());
             inputText();
         }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        ui.selected = (String)e.getItem();
     }
 
     class Thr implements Runnable{

@@ -12,11 +12,14 @@ public class LunchGUI extends JFrame {
     JScrollPane leftCenterPanel;
     JButton all,korean,japanese,western,chinese,etc,add,clear,random,menuL;
     JLabel name,kind,recoMenu,menuLink;
-    JTextField fname,fkind,frecoMenu;
+    JTextField fname,frecoMenu;
+    JComboBox<String> jcKind;
     JList<String> jlist;
     List<Restaurant> data;
     DefaultListModel defaultListModel = null;
     Restaurant restaurant;
+    String[] kindStr = {"한식","양식","일식","중식","기타"};
+    String selected="한식";
 
     public LunchGUI(){
         this.setTitle("종로 식당");
@@ -39,7 +42,6 @@ public class LunchGUI extends JFrame {
         rightSouthPanel = new JPanel();
         leftCenterPanel = new JScrollPane(jlist);
 
-
         all = new JButton("전체");
         korean = new JButton("한식");
         japanese = new JButton("일식");
@@ -53,12 +55,13 @@ public class LunchGUI extends JFrame {
 
         name = new JLabel("이름",JLabel.LEFT);
         kind = new JLabel("종류",JLabel.LEFT);
-        recoMenu = new JLabel("추천메뉴",JLabel.LEFT);
+        recoMenu = new JLabel("비고",JLabel.LEFT);
         menuLink = new JLabel("메뉴링크",JLabel.LEFT);
 
         fname = new JTextField();
-        fkind = new JTextField();
+        jcKind = new JComboBox<>(kindStr);
         frecoMenu = new JTextField();
+        jcKind.setSelectedIndex(0);
 
         EventHandler handler = new EventHandler(this);
 
@@ -76,6 +79,7 @@ public class LunchGUI extends JFrame {
         random.addActionListener(handler);
         menuL.addActionListener(handler);
         jlist.addListSelectionListener(handler);
+        jcKind.addItemListener(handler);
     }
 
     public void display(){
@@ -99,7 +103,7 @@ public class LunchGUI extends JFrame {
         rightCenterPanel.add(name);
         rightCenterPanel.add(fname);
         rightCenterPanel.add(kind);
-        rightCenterPanel.add(fkind);
+        rightCenterPanel.add(jcKind);
         rightCenterPanel.add(recoMenu);
         rightCenterPanel.add(frecoMenu);
         rightCenterPanel.add(menuLink);
