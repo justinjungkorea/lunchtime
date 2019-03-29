@@ -110,15 +110,15 @@ public class EventHandler implements ActionListener, ListSelectionListener {
         //add data
         else if(e.getSource()==ui.add){
             //check if there is empty textfield
-            if(ui.fname.getText().length()<1){
+            if(ui.fname.getText().trim().length()<1){
                 JOptionPane.showMessageDialog(null,"이름을 입력하세요!");
                 return;
             }
-            if(ui.fkind.getText().length()<1){
+            if(ui.fkind.getText().trim().length()<1){
                 JOptionPane.showMessageDialog(null,"종류를 입력하세요!");
                 return;
             }
-            if(ui.frecoMenu.getText().length()<1){
+            if(ui.frecoMenu.getText().trim().length()<1){
                 JOptionPane.showMessageDialog(null,"추천메뉴를 입력하세요!");
                 return;
             }
